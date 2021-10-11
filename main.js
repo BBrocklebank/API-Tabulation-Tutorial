@@ -1,11 +1,12 @@
-let xhr = new XMLHttpRequest();
+function getData() {
+    let xhr = new XMLHttpRequest();
 
-xhr.open('GET', 'https://ci-swapi.herokuapp.com/api/');
-xhr.send();
+    xhr.open('GET', 'https://ci-swapi.herokuapp.com/api/');
+    xhr.send();
 
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        document.getElementById('data').innerHTML = this.responseText;
-    }
-};
-
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText);
+        }
+    };
+}
