@@ -1,4 +1,4 @@
-function getData() {
+function getData(cb) {
     let xhr = new XMLHttpRequest();
 
     xhr.open('GET', 'https://ci-swapi.herokuapp.com/api/');
@@ -6,7 +6,11 @@ function getData() {
 
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText);
+            cb(JSON.parse(this.responseText));
         }
     };
 }
+
+getData(function() {
+    console.log(data);
+})
