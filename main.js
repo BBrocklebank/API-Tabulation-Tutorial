@@ -1,9 +1,7 @@
-const baseURL = "https://ci-swapi.herokuapp.com/api/"
-
-function getData(type, cb) {
+function getData(url, cb) {
     let xhr = new XMLHttpRequest();
 
-    xhr.open('GET', baseURL + type + '/');
+    xhr.open('GET', url);
     xhr.send();
 
     xhr.onreadystatechange = function () {
@@ -25,21 +23,20 @@ function getTableHeaders(obj) {
 
 function generatePaginationButtons(next, prev) {
     if (next && prev) {
-        return `<button onclick="writeToDocument('${prev}')>Previous</button>`
-               `<button onclick="writeToDocument('${next}')>Next</button>`;
+        return `<button onclick="writeToDocument('${prev}')">Previous</button>
+               <button onclick="writeToDocument('${next}')">Next</button>`;
     } else if (next && !prev) {
-        return `<button onclick="writeToDocument('${next}')>Next</button>`;
-    } else if (!next && prev){
-        return `<button onclick="writeToDocument('${prev}')>Previous</button>`;
+        return `<button onclick="writeToDocument('${next}')">Next</button>`;
+    } else if (!next && prev) {
+        return `<button onclick="writeToDocument('${prev}')">Previous</button>`;
     }
 }
 
-function writeToDocument(type) {
+function writeToDocument(url) { 
     let tableRows = [];
     let el = document.getElementById('data');
-    el.innerHTML = "";
 
-    getData(type, function(data) {
+    getData(url, function(data) {
         let pagination;
         if (data.next || data.previous) {
             pagination = generatePaginationButtons(data.next, data.previous)
@@ -59,7 +56,7 @@ function writeToDocument(type) {
           tableRows.push(`<tr>${dataRow}</tr>`);
         });
 
-        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>`;
+        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>${pagination}`;
         
     });
 }
